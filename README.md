@@ -1,28 +1,30 @@
-== README
+**PREMISE**
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A client that processes data from wind farms has a hypothesis that larger wind farms tend to be less efficient, since
+they experience higher "wake loss".  (Larger farms have more rows of turbines
+that obstruct the wind for each downwind turbine.) I've been tasked with constructing an interactive web
+application that will help the client test this hypothesis.
 
-Things you may want to cover:
+The application will be hosted on Heroku at https://wind-farm-stats-20190422.herokuapp.com/
 
-* Ruby version
+**SOURCE DATA**
 
-* System dependencies
+The data displayed in the application was supplied by the client in csv format, containing information about every wind farm in the US, as described below:
 
-* Configuration
+* ID - a numeric unique ID
+* Name - the name of the farm
+* Latitude/Longitude - GPS coordinate
+* CapacityMW - maximum possible 'nameplate capacity' power generation in MW
+* GenerationMWhPerYear - average annual energy generation in MW-hours
 
-* Database creation
+A farm's efficiency is defined by its 'net capacity factor', which is
+generation / (capacity * time).  In this case, time is 1 year or 8760 hours.
+Because the wind doesn't always blow, wind farms tend to produce ~30-50%
+of their maximum potential.
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+**TECHNOLOGIES USED**
+- Ruby
+- Rails
+- Heroku
+- Chartkick
+- Google Charts
