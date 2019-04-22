@@ -28,3 +28,5 @@ of their maximum potential.
 - Heroku
 - Chartkick
 - Google Charts
+
+Note: Data for average net capacity by state taken from http://www.windaction.org/posts/37255-u-s-average-annual-capacity-factors-by-project-and-state#.XL4ZEZNKi9s and https://www.eia.gov/electricity/data/eia923/

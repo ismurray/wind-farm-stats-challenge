@@ -7,7 +7,7 @@
   by its maximum capacity * time (8760 hours).
 </p>
 
-<%= scatter_chart @csv.find_all { |row| row['GenerationMWhPerYear'] != 'NA' }.map { |row| [row["CapacityMW"], row['GenerationMWhPerYear'].to_f / (row["CapacityMW"].to_f * 8760) * 100] }, legend: true, xtitle: 'Capacity (MW)', ytitle: 'Net Capacity Factor (%)', library:
+<%= scatter_chart @farm_csv.find_all { |row| row['GenerationMWhPerYear'] != 'NA' }.map { |row| [row["CapacityMW"], row['GenerationMWhPerYear'].to_f / (row["CapacityMW"].to_f * 8760) * 100] }, legend: true, xtitle: 'Capacity (MW)', ytitle: 'Net Capacity Factor (%)', library:
   {
     chartArea: { width:'50%' },
 
@@ -19,4 +19,37 @@
       }
     }
   }
+%>
+
+<p>According to data from the US Energy Information Administration, the average
+  net capacity factor has a wide range of variation depending on region. Below
+  you can see a visualization of the average net capacity factor by state (in percentages):</p>
+
+<%= geo_chart @avg_capacity_csv.map { |r| [r['State'], r['2012AverageCapacityFactor'].to_f] }, legend: true, library:
+  {
+    region: 'US',
+    resolution: 'provinces'
+  } %>
+
+<br>
+<p> Even controlling for this by isolating data from a region with more consistent
+average net capacity, there does not appear to be a statistically significant relationship.
+The graph below shows the data from windfarms located within a longitude range of -104 through -95,
+which makes up the region with the highest wind speeds and average net capacities. </p>
+
+<%= scatter_chart @farm_csv.
+  find_all { |row| row['GenerationMWhPerYear'] != 'NA' && row['Longitude'].to_f.between?(-104.0, -95.0) }.
+  map { |row| [row["CapacityMW"], row['GenerationMWhPerYear'].to_f / (row["CapacityMW"].to_f * 8760) * 100] },
+  legend: true, xtitle: 'Capacity (MW)', ytitle: 'Net Capacity Factor (%)', library:
+    {
+      chartArea: { width:'50%' },
+
+      trendlines: {
+        0 => {
+          type: 'linear',
+          showR2: true,
+          visibleInLegend: true
+        }
+      }
+    }
 %>
