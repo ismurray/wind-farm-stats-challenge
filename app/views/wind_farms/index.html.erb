@@ -1,1 +1,22 @@
-<h1>US Wind Farm Data</h1>
+<h1>US Wind Farm Efficiency with relation to Capacity</h1>
+
+<p> The graph below shows the relationship between the
+  efficiency of a windfarm and it's overall capacity, using data from all of the
+  wind farms in the United States. The efficiency is defined
+  here as the Net Capacity Factor, which is the plant's power generation divided
+  by its maximum capacity * time (8760 hours).
+</p>
+
+<%= scatter_chart @csv.find_all { |row| row['GenerationMWhPerYear'] != 'NA' }.map { |row| [row["CapacityMW"], row['GenerationMWhPerYear'].to_f / (row["CapacityMW"].to_f * 8760) * 100] }, legend: true, xtitle: 'Capacity (MW)', ytitle: 'Net Capacity Factor (%)', library:
+  {
+    chartArea: { width:'50%' },
+
+    trendlines: {
+      0 => {
+        type: 'linear',
+        showR2: true,
+        visibleInLegend: true
+      }
+    }
+  }
+%>
